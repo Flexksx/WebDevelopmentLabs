@@ -22,7 +22,13 @@ class Category:
         if len(a_tags) == 0:
             raise Exception(
                 "Could not initialize Category. No a elements found")
-        url = f'https://linella.md{a_tags[0]["href"]}'
+        href = a_tags[0].get("href", "")
+
+        if href and "javascript:;" not in href:
+            url = f'https://linella.md{href}'
+        else:
+            raise Exception("Invalid href: contains 'javascript:;'")
+
         return url
 
     def get_name(self) -> str:

@@ -1,6 +1,6 @@
 from time import sleep
 from bs4 import BeautifulSoup
-from .Category import Category
+from ..page.Category import Category
 import tqdm
 
 
