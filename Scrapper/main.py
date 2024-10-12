@@ -1,10 +1,10 @@
 from requestlib.StandardRequester import Requester
-from category.menu.CategoryMenuScrapper import CategoryMenuScrapper
+from scrappers.categories.CategoryMenuScrapper import CategoryMenuScrapper
 requester = Requester()
 response = requester.get_html("https://alcomarket.md/")
 catalogue_response = requester.get_html("https://alcomarket.md/ro/catalog")
 category_scrapper = CategoryMenuScrapper(
-    catalogue_response, "div", "mini-catalog__wrapper",requests_module=requester)
+    catalogue_response, "div", "mini-catalog__wrapper", requests_module=requester)
 categories = category_scrapper.get_categories()
 
 print("Proceeding on scrapping category pages")

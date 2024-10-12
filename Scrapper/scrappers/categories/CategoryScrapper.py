@@ -1,29 +1,31 @@
 from bs4 import BeautifulSoup
 
 from requestlib.Requester import IRequester
-from CategoryPageScrapper import CategoryPageScrapper
+from .CategoryPageScrapper import CategoryPageScrapper
+from models.Category import Category
+
 
 class CategoryScrapper:
     def __init__(self, html: str, request_module: IRequester) -> None:
         self.html = html
+        self.soup = BeautifulSoup(html, "html.parser")
         self.request_module = request_module
-        self.name = self.__initialize_name()
-        self.url = self.__initialize_url()
+        self.category = Category(
+            self.__scrap_name(), self.__scrap_url())
+        self.name = self.__scrap_name()
+        self.url = self.__scrap_url()
         self.pages_urls = []
-        # print(f"Initialized Category: {self.name} with url: {self.url}")
 
-    def __initialize_name(self) -> str:
-        soup = BeautifulSoup(self.html, "html.parser")
-        a_tags = soup.find_all("a")
+    def __scrap_name(self) -> str:
+        a_tags = self.soup.find_all("a")
         if len(a_tags) == 0:
             raise Exception(
                 f"Could not initialize Category. No a elements found")
         name = a_tags[0].text.strip()
         return name
 
-    def __initialize_url(self) -> str:
-        soup = BeautifulSoup(self.html, "html.parser")
-        a_tags = soup.find_all("a")
+    def __scrap_url(self) -> str:
+        a_tags = self.soup.find_all("a")
         if len(a_tags) == 0:
             raise Exception(
                 f"Could not initialize Category {self.name}. No a elements found")
