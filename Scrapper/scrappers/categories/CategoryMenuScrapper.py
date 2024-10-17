@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 from requestlib.Requester import IRequester
 from .CategoryScrapper import CategoryScrapper
-import tqdm
+from tqdm import tqdm
 
 
 class CategoryMenuScrapper:
@@ -20,11 +20,11 @@ class CategoryMenuScrapper:
         self.tag_class = tag_class
         self.request_module = requests_module
 
-    def get_categories(self) -> list[CategoryScrapper]:
+    def get_category_scrappers(self) -> list[CategoryScrapper]:
         soup = BeautifulSoup(self.html, "html.parser")
         categories = soup.find_all("a")
         categories_list = []
-        with tqdm.tqdm(total=len(categories), desc="Scraping categories") as progress_bar:
+        with tqdm(total=len(categories), desc="Scraping categories") as progress_bar:
             for category in categories:
                 try:
                     category_obj = CategoryScrapper(

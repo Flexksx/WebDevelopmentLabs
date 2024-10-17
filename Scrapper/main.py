@@ -1,11 +1,12 @@
 from requestlib.StandardRequester import Requester
+from requestlib.CustomRequester import CustomRequester
 from scrappers.categories.CategoryMenuScrapper import CategoryMenuScrapper
-requester = Requester()
-response = requester.get_html("https://alcomarket.md/")
+requester = CustomRequester()
+# response = requester.get_html("https://alcomarket.md/")
 catalogue_response = requester.get_html("https://alcomarket.md/ro/catalog")
-category_scrapper = CategoryMenuScrapper(
+category_menu_scrapper = CategoryMenuScrapper(
     catalogue_response, "div", "mini-catalog__wrapper", requests_module=requester)
-categories = category_scrapper.get_categories()
+category_scrappers = category_menu_scrapper.get_category_scrappers()
 
 print("Proceeding on scrapping category pages")
 
@@ -13,9 +14,14 @@ print("Proceeding on scrapping category pages")
 #     print(category)
 #     break
 
-vodka = categories[4]
+vodka = category_scrappers[4]
 print(vodka)
 # vodka.get_products(request_module=requester)
-page_urls = vodka.get_pages_urls()
-print(page_urls)
-vodka.get_products()
+# page_urls = vodka.get_pages_urls()
+# print(page_urls)
+# products = vodka.get_product_urls()
+products = vodka.get_products()
+# print(products)
+vodka_category = vodka.get_model()
+print(vodka_category.process_products((100, 200)))
+print(vodka_category)
