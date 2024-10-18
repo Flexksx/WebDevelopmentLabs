@@ -45,3 +45,6 @@ class Product:
     def __str__(self) -> str:
         return (f"Product(name={self.name}, url={self.url}, manufacturer={self.manufacturer}, "
                 f"price={self.price}, volume={self.volume}, abv={self.abv}, currency={self.currency})")
+
+    def __repr__(self) -> str:
+        return self.__str__()

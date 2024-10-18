@@ -56,7 +56,7 @@ class Category:
         """
         total_price = reduce(lambda acc, p: acc + p.price,
                              filtered_products, 0)
-        # 4. Attach the sum and UTC timestamp to the new data model
+
         result = {
             "filtered_products": filtered_products,
             "total_price": total_price,

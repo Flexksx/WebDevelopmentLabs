@@ -6,29 +6,25 @@ class Decoder:
         lines = encoded_str.strip().split("\n")
         data = self.__decode_lines(lines)
 
-        if cls:  # If a class is provided, instantiate an object
+        if cls:
             return self.__deserialize_object(data, cls)
         return data
 
     def __decode_lines(self, lines):
         data = {}
-        stack = [data]  # Stack to handle nested structures
+        stack = [data]
         current_key = None
         current_indent = 0
 
         for line in lines:
             stripped_line = line.lstrip()
-            # Calculate indentation level
             indent_level = len(line) - len(stripped_line)
-
-            # Handle list entries
             if stripped_line.startswith("list ="):
                 items = stripped_line[len("list ="):].strip()[1:-1].split(", ")
                 stack[-1][current_key] = [self.__parse_value(item)
                                           for item in items]
                 continue
 
-            # Handle dictionary entries
             if ":" in stripped_line:
                 key, value = stripped_line.split(":", 1)
                 key = key.strip()

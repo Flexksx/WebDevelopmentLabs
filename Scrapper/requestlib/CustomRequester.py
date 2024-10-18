@@ -10,14 +10,6 @@ class CustomRequester(IRequester):
         self.max_redirects = max_redirects
 
     def __compose_http_request(self, url: str) -> str:
-        """Composes an HTTP GET request for the specified URL
-
-        Args:
-            url (str): The URL to request
-
-        Returns:
-            str: The composed HTTP request
-        """
         method = "GET"
         # Parse the URL to get the host and path.
         # This could be done with regex, but using the built-in library is safer.
@@ -32,14 +24,6 @@ class CustomRequester(IRequester):
         return request
 
     def __parse_headers(self, response: str) -> dict:
-        """Parses the headers from an HTTP response
-
-        Args:
-            response (str): The HTTP response
-
-        Returns:
-            dict: A dictionary containing the headers
-        """
         headers = {}
         header_lines = response.split("\r\n\r\n", 1)[0].split("\r\n")
         for line in header_lines[1:]:
@@ -48,14 +32,6 @@ class CustomRequester(IRequester):
         return headers
 
     def __get_status_code(self, response: str) -> int:
-        """Gets the status code from an HTTP response
-
-        Args:
-            response (str): The HTTP response
-
-        Returns:
-            int: The status code
-        """
         status_line = response.split("\r\n", 1)[0]
         status_code = int(status_line.split(" ")[1])
         return status_code
@@ -105,7 +81,6 @@ class CustomRequester(IRequester):
                 print(f"Redirecting to: {redirect_url}")
                 return self.get(redirect_url, redirects + 1)
 
-        # Separate headers from the body
         headers, body = response.split("\r\n\r\n", 1)
         return body
 
