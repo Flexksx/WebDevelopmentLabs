@@ -7,58 +7,60 @@ class TestXMLSerializerEncoding(unittest.TestCase):
     def setUp(self) -> None:
         self.serializer = XMLSerializer()
 
-    def test_serialize_number(self) -> None:
-        data = 1
-        expected = "<int>1</int>"
-        actual = self.serializer.serialize(data)
-        self.assertEqual(expected, actual)
-
-    def test_serialize_string(self) -> None:
-        data = "Hello, World!"
-        expected = "<str>Hello, World!</str>"
-        actual = self.serializer.serialize(data)
-        self.assertEqual(expected, actual)
-
-    def test_serialize_none(self) -> None:
-        data = None
-        expected = "<NoneType></NoneType>"
-        actual = self.serializer.serialize(data)
-        self.assertEqual(expected, actual)
-
-    def test_serialize_bool(self) -> None:
-        data = True
-        expected = "<bool>True</bool>"
-        actual = self.serializer.serialize(data)
-        self.assertEqual(expected, actual)
-
     def test_serialize_list(self) -> None:
         data = [1, 2, 3, 4, 5]
-        expected = "<list><int>1</int><int>2</int><int>3</int><int>4</int><int>5</int></list>"
+        expected = "<list><item>1</item><item>2</item><item>3</item><item>4</item><item>5</item></list>"
         actual = self.serializer.serialize(data)
         self.assertEqual(expected, actual)
 
     def test_serialize_dict(self) -> None:
-        data = {"key1": 1, "key2": 2, "key3": 3}
-        expected = "<dict><key1><int>1</int></key1><key2><int>2</int></key2><key3><int>3</int></key3></dict>"
-        actual = self.serializer.serialize(data)
-        self.assertEqual(expected, actual)
-
-    def test_serialize_dict_bool(self) -> None:
-        data = {"BOOL_KEY": True}
-        expected = "<dict><BOOL_KEY><bool>True</bool></BOOL_KEY></dict>"
-        actual = self.serializer.serialize(data)
-        self.assertEqual(expected, actual)
-
-    def test_serialize_mixed_list(self) -> None:
-        data = [1, "2", 3, {"key": "value"}, 5]
-        expected = "<list><int>1</int><str>2</str><int>3</int><dict><key><str>value</str></key></dict><int>5</int></list>"
+        data = {"name": "John", "age": 25, "is_student": True}
+        expected = "<name>John</name><age>25</age><is_student>true</is_student>"
         actual = self.serializer.serialize(data)
         self.assertEqual(expected, actual)
 
     def test_serialize_product(self) -> None:
         data = Product("Beer", "some/url", "WhiteBear", 10, 20, 0.5)
-        expected = "<Product><name>Beer</name><url>some/url</url><brand>WhiteBear</brand><price>10</price><stock>20</stock><volume>0.5</volume></Product>"
+        expected = "<Product><name>Beer</name><url>some/url</url><manufacturer>WhiteBear</manufacturer><price>10</price><volume>20</volume><abv>0.5</abv><currency>MDL</currency></Product>"
         actual = self.serializer.serialize(data)
+        self.assertEqual(expected, actual)
+
+    def test_nested_objects(self) -> None:
+        data = {"name": "John", "age": 25, "is_student": True, "address": {
+            "city": "Chisinau", "street": "Stefan cel Mare"}}
+        expected = "<name>John</name><age>25</age><is_student>true</is_student><address><city>Chisinau</city><street>Stefan cel Mare</street></address>"
+        actual = self.serializer.serialize(data)
+        self.assertEqual(expected, actual)
+
+    def test_dict_with_list(self) -> None:
+        data = {"name": "John", "age": 25,
+                "is_student": True, "grades": [9, 10, 8, 9]}
+        expected = "<name>John</name><age>25</age><is_student>true</is_student><grades><list><item>9</item><item>10</item><item>8</item><item>9</item></list></grades>"
+        actual = self.serializer.serialize(data)
+        self.assertEqual(expected, actual)
+
+
+class TestXMLSerializerDecoding(unittest.TestCase):
+    def setUp(self) -> None:
+        self.serializer = XMLSerializer()
+
+    def test_deserialize_dict(self) -> None:
+        data = "<name>John</name><age>25</age><is_student>true</is_student>"
+        expected = {"name": "John", "age": 25, "is_student": True}
+        actual = self.serializer.deserialize(data)
+        self.assertEqual(expected, actual)
+
+    def test_deserialize_product(self) -> None:
+        data = "<Product><name>Beer</name><url>some/url</url><manufacturer>WhiteBear</manufacturer><price>10</price><volume>20</volume><abv>0.5</abv><currency>MDL</currency></Product>"
+        expected = Product("Beer", "some/url", "WhiteBear", 10, 20, 0.5)
+        actual = self.serializer.deserialize(data, Product)
+        self.assertEqual(expected, actual)
+
+    def test_nested_objects(self) -> None:
+        data = "<name>John</name><age>25</age><is_student>true</is_student><address><city>Chisinau</city><street>Stefan cel Mare</street></address>"
+        expected = {"name": "John", "age": 25, "is_student": True, "address": {
+            "city": "Chisinau", "street": "Stefan cel Mare"}}
+        actual = self.serializer.deserialize(data)
         self.assertEqual(expected, actual)
 
 
