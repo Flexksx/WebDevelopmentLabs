@@ -1,6 +1,7 @@
 from requestlib.StandardRequester import Requester
 from requestlib.CustomRequester import CustomRequester
 from scrappers.categories.CategoryMenuScrapper import CategoryMenuScrapper
+from serializers.json_serializers.JSONSerializer import JSONSerializer
 requester = CustomRequester()
 # response = requester.get_html("https://alcomarket.md/")
 catalogue_response = requester.get_html("https://alcomarket.md/ro/catalog")
@@ -23,5 +24,6 @@ print(vodka)
 products = vodka.get_products()
 # print(products)
 vodka_category = vodka.get_model()
-print(vodka_category.process_products((100, 200)))
-print(vodka_category)
+processed_products = vodka_category.process_products((100, 200))
+serializer = JSONSerializer()
+print(serializer.serialize(processed_products))
