@@ -10,18 +10,19 @@
   in {
     devShells.${system}.default = with import nixpkgs { inherit system; }; mkShell {
       buildInputs = [
-        openjdk17        
+        openjdk17  # Change to a valid JDK version
         gradle           
         sqlite           
         docker           
         nodejs-18_x
+        postgresql
       ];
 
-      # Optional: Configure environment variables
       shellHook = ''
         echo "Starting development shell with Java, Gradle, SQLite, and Docker support on macOS M1"
-        export JAVA_HOME=${openjdk17}/lib/openjdk
+        export JAVA_HOME=${openjdk17}  # Adjust this according to the JDK you choose
         export PATH=$PATH:${docker}/bin
+        echo "JAVA_HOME set to $JAVA_HOME"
       '';
     };
   };
