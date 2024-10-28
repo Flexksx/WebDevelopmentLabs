@@ -1,15 +1,28 @@
 {
-  description = "A very basic flake";
+  description = "Java project with Spring, SQLite, and Gradle in a Nix Flake for macOS with M1";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
   };
 
-  outputs = { self, nixpkgs }: {
+  outputs = { self, nixpkgs }: let
+    system = "aarch64-darwin"; # Set for macOS on M1
+  in {
+    devShells.${system}.default = with import nixpkgs { inherit system; }; mkShell {
+      buildInputs = [
+        openjdk17        
+        gradle           
+        sqlite           
+        docker           
+        nodejs-18_x
+      ];
 
-    packages.x86_64-linux.hello = nixpkgs.legacyPackages.x86_64-linux.hello;
-
-    packages.x86_64-linux.default = self.packages.x86_64-linux.hello;
-
+      # Optional: Configure environment variables
+      shellHook = ''
+        echo "Starting development shell with Java, Gradle, SQLite, and Docker support on macOS M1"
+        export JAVA_HOME=${openjdk17}/lib/openjdk
+        export PATH=$PATH:${docker}/bin
+      '';
+    };
   };
 }
