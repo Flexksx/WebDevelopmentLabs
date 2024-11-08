@@ -58,7 +58,7 @@ class CategoryScrapper:
             self.product_urls = self.get_product_urls()
 
         products = []
-        # Adjust the number of threads based on system capacity or network constraints
+
         max_workers = 20
 
         with ThreadPoolExecutor(max_workers=max_workers) as executor:

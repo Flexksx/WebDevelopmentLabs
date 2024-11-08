@@ -2,6 +2,7 @@ from models.Product import Product
 from requestlib.StandardRequester import Requester
 from requestlib.CustomRequester import CustomRequester
 from scrappers.categories.CategoryMenuScrapper import CategoryMenuScrapper
+from serializers.my_serializer.CustomSerializer import CustomSerializer
 from serializers.json_serializers.JSONSerializer import JSONSerializer
 requester = CustomRequester()
 catalogue_response = requester.get_html("https://alcomarket.md/ro/catalog")
@@ -13,18 +14,23 @@ print("Proceeding on scrapping category pages")
 
 vodka = category_scrappers[4]
 print(vodka)
-# vodka.get_products(request_module=requester)
-# page_urls = vodka.get_pages_urls()
-# print(page_urls)
-# products = vodka.get_product_urls()
+
+
 products = vodka.get_products()
-# print(products)
+
 vodka_category = vodka.get_model()
 processed_products = vodka_category.process_products((100, 200))
-serializer = JSONSerializer()
-product = processed_products.get("filtered_products")[0]
-serialized = serializer.serialize(product)
+serializer = CustomSerializer()
+# product = processed_products.get("filtered_products")[0]
+
+test_dict = {
+    "name": "Test Product",
+    "price": 100,
+    "available": True,
+    "tags": ["test", "product"]
+}
+
+serialized = serializer.serialize(test_dict)
 print(serialized)
-deserialized = serializer.deserialize(serialized, Product)
+deserialized = serializer.deserialize(serialized)
 print(deserialized)
-# print(processed_products)

@@ -1,4 +1,4 @@
-# python3 -m unittest serializers.test
+
 from serializers.json_serializers.JSONSerializer import JSONSerializer
 from models.Product import Product
 import unittest

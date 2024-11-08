@@ -14,7 +14,7 @@ class Encoder:
 
     def __encode_list(self, data: list, root_tag: str) -> str:
         items = "".join(f"<item>{self.encode(item)}</item>" for item in data)
-        return f"<list>{items}</list>"  # Using the provided root tag for lists
+        return f"<list>{items}</list>"
 
     def __encode_dict(self, data: dict, root_tag: str) -> str:
         items = [f"<{key}>{self.encode(
@@ -22,7 +22,7 @@ class Encoder:
         return "".join(items)
 
     def __encode_object(self, obj: object, root_tag: str) -> str:
-        # Using the class name of the object as the tag
+
         items = "".join(f"<{key}>{self.encode(
             value)}</{key}>" for key, value in obj.__dict__.items())
         return f"<{obj.__class__.__name__}>{items}</{obj.__class__.__name__}>"
