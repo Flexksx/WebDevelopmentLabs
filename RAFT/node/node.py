@@ -5,6 +5,7 @@ import random
 import json
 import os
 
+
 class Node:
     def __init__(self, node_id, peers, port):
         self.node_id = node_id
@@ -60,9 +61,11 @@ class Node:
                     }
                     self.sock.sendto(json.dumps(response).encode(), addr)
 
+
 if __name__ == "__main__":
     node_id = int(os.getenv("NODE_ID"))
-    peers = [(os.getenv(f"PEER_{i}_HOST"), int(os.getenv(f"PEER_{i}_PORT"))) for i in range(int(os.getenv("NUM_PEERS")))]
+    peers = [(os.getenv(f"PEER_{i}_HOST"), int(
+        os.getenv(f"PEER_{i}_PORT"))) for i in range(int(os.getenv("NUM_PEERS")))]
     port = int(os.getenv("NODE_PORT"))
 
     node = Node(node_id, peers, port)
