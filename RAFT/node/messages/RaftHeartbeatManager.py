@@ -3,7 +3,7 @@ import time
 from electable.RaftElectableContext import RaftElectableContext
 from electable.RaftElectableSocket import RaftElectableSocket
 from electable.RaftElectableState import RaftElectableState
-from heartbeat.RaftHeartbeat import RaftHeartbeat
+from node.messages.RaftHeartbeat import RaftHeartbeat
 
 
 class RaftHeartbeatManager():

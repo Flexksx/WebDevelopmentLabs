@@ -25,7 +25,6 @@ class RaftElectableContext:
 
     def set_term(self, term: int) -> None:
         self._term = term
-        self._voted_for = None
 
     def increment_term(self) -> None:
         """Increment the term and reset voted_for."""

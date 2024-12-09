@@ -15,31 +15,6 @@ class AbstractRaftState(ABC):
         pass
 
     @abstractmethod
-    def on_election_timeout(self):
-        """Handle election timeout."""
-        pass
-
-    @abstractmethod
-    def on_receive_vote_request(self, message, addr):
-        """Handle a RequestVote message."""
-        pass
-
-    @abstractmethod
-    def on_receive_heartbeat(self, message):
-        """Handle a Heartbeat message."""
-        pass
-
-    @abstractmethod
-    def on_receive_vote_response(self, message):
-        """Handle a VoteResponse message."""
-        pass
-
-    @abstractmethod
-    def on_receive_client_request(self, message):
-        """Handle a client request."""
-        pass
-
-    @abstractmethod
-    def on_receive_client_response(self, message):
-        """Handle a client response."""
+    def on_state_exit(self):
+        """Handle state exit."""
         pass
