@@ -21,7 +21,8 @@ class StateManager:
         self._state = state
 
     def transition_to(self, state_name):
+        self._state.on_state_exit()
         self._state = self._states[state_name]
         self._context.set_state(state_name)
         self._state.on_state_entry()
-        return self._state
+        return self._states

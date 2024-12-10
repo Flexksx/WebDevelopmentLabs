@@ -18,7 +18,7 @@ class VoteResponse:
         return VoteResponse(json_dict["term"], json_dict["vote_granted"])
 
     def to_json(self):
-        return json.dumps({"term": self.term, "vote_granted": self.vote_granted})
+        return json.dumps({"message_type": "VoteResponse", "term": self.term, "vote_granted": self.vote_granted})
 
     def get_term(self):
         return self.term

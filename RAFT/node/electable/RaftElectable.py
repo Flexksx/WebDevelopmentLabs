@@ -2,7 +2,6 @@ from electable.RaftElectablePeer import RaftElectablePeer
 from electable.RaftElectableSocket import RaftElectableSocket
 from electable.RaftElectableState import RaftElectableState
 from electable.RaftElectableContext import RaftElectableContext
-from heartbeat.RaftHeartbeatManager import RaftHeartbeatManager
 from node.state.FollowerState import FollowerState
 from node.state.StateManager import StateManager
 

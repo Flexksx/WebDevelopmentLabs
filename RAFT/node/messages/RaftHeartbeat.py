@@ -18,7 +18,7 @@ class RaftHeartbeat:
         return RaftHeartbeat(json_dict["term"], json_dict["leader_id"])
 
     def to_json(self):
-        return json.dumps({"term": self.term, "leader_id": self.leader_id})
+        return json.dumps({"message_type": "Heartbeat", "term": self.term, "leader_id": self.leader_id})
 
     def get_term(self):
         return self.term

@@ -19,6 +19,7 @@ class RaftElectableContext:
         self._leader_id = leader_id
         self._peers = peers or []
         self._election_timeout = random.randint(150, 300) / 1000
+        self._socket = socket
 
     def get_term(self) -> int:
         return self._term

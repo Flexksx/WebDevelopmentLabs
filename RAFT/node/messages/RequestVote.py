@@ -18,7 +18,7 @@ class RequestVote:
         return RequestVote(json_dict["term"], json_dict["candidate_id"])
 
     def to_json(self):
-        return json.dumps({"term": self.term, "candidate_id": self.candidate_id})
+        return json.dumps({"message_type": "RequestVote", "term": self.term, "candidate_id": self.candidate_id})
 
     def get_term(self):
         return self.term
