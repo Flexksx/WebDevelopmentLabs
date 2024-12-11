@@ -15,7 +15,8 @@ class RaftElectableContext:
                  voted_for: str = None,
                  leader_id: str = None,
                  peers: list[RaftElectablePeer] = None,
-                 socket: RaftElectableUDPSocket = None
+                 address: str = None,
+                 port: int = None,
                  ) -> None:
         """
         Args:
@@ -32,9 +33,23 @@ class RaftElectableContext:
         self._peers = peers or []
         self._votes = 0
         self._state = RaftElectableState.FOLLOWER
-        self._socket = socket
+        self._address = address
+        self._port = port
+
+    def get_address(self) -> str:
+        """Get the address of the node."""
+        return self._address
+
+    def get_port(self) -> int:
+        """Get the port of the node."""
+        return self._port
+
+    def get_socket(self) -> RaftElectableUDPSocket:
+        """Get the socket of the node."""
+        return self._socket
 
     # Term Management
+
     def get_term(self) -> int:
         """Get the current term."""
         return self._term
