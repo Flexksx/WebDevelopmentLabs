@@ -3,7 +3,7 @@ import socket
 from node.electable.RaftElectablePeer import RaftElectablePeer
 
 
-class RaftElectableSocket:
+class RaftElectableUDPSocket:
     def __init__(self, address: str = None, port: int = None) -> None:
         self._sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self._address = address
@@ -15,7 +15,7 @@ class RaftElectableSocket:
     def recvfrom(self, size: int) -> tuple:
         return self._sock.recvfrom(size)
 
-    def send(self, message: dict, peer: RaftElectablePeer) -> None:
+    def send(self, message: str, peer: RaftElectablePeer) -> None:
         self._sock.sendto(message, (peer.get_address(), peer.get_port()))
 
     def receive(self) -> dict:

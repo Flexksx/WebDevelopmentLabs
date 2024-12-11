@@ -1,13 +1,13 @@
 import json
 import time
 from electable.RaftElectableContext import RaftElectableContext
-from electable.RaftElectableSocket import RaftElectableSocket
+from electable.RaftElectableSocket import RaftElectableUDPSocket
 from electable.RaftElectableState import RaftElectableState
 from node.messages.RaftHeartbeat import RaftHeartbeat
 
 
 class RaftHeartbeatManager():
-    def __init__(self, context: RaftElectableContext, socket: RaftElectableSocket) -> None:
+    def __init__(self, context: RaftElectableContext, socket: RaftElectableUDPSocket) -> None:
         self._context = context
         self._socket = socket
 

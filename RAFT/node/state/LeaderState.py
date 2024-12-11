@@ -1,6 +1,7 @@
 import json
 import time
 from electable.RaftElectableContext import RaftElectableContext
+from node.messages.RaftHeartbeat import RaftHeartbeat
 from node.state.StateManager import StateManager
 from state.RaftState import AbstractRaftState
 
@@ -8,25 +9,22 @@ from state.RaftState import AbstractRaftState
 class LeaderState(AbstractRaftState):
     def __init__(self, context: RaftElectableContext = None, state_manager: StateManager = None) -> None:
         super().__init__(context=context, state_manager=state_manager)
+        self._last_heartbeat = time.time()
 
-    def on_election_timeout(self):
-        print(f"Node {self.context.node_id}: Leader does not timeout")
+    def on_state_entry(self):
+        print(f"Node {self._context.get_id()}: Entered Leader state")
+        self._context.set_leader_id(self._context.get_id())
+        self._context.set_voted_for(None)
+        self._context.reset_votes()
+        self._context.increment_term()
 
-    def on_receive_vote_request(self, message, addr):
-        print(f"Node {self.context.node_id}: Ignoring vote request while Leader")
+    def on_state_exit(self):
+        print(f"Node {self._context.get_id()}: Exiting Leader state")
 
-    def on_receive_heartbeat(self, message):
-        print(
-            f"Node {self.context.node_id}: Received heartbeat while Leader (ignoring)")
-
-    def send_heartbeats(self):
-        while self.context.state == "Leader":
-            for peer in self.context.peers:
-                message = {
-                    "type": "Heartbeat",
-                    "term": self.context.term,
-                    "leader_id": self.context.node_id,
-                }
-                self.context.sock.sendto(json.dumps(message).encode(), peer)
-            print(f"Node {self.context.node_id}: Sent heartbeats")
-            time.sleep(1)
+    def send_hearbeat(self):
+        self._last_heartbeat = time.time()
+        heartbeat = RaftHeartbeat(
+            self._context.get_term(), self._context.get_id())
+        for peer in self._context.get_peers():
+            self._context.get_socket().sendto(
+                heartbeat.to_json(), peer)
