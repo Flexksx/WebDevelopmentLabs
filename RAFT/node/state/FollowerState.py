@@ -1,15 +1,12 @@
 from random import randint
-from electable.RaftElectableContext import RaftElectableContext
+from node.electable.RaftElectableContext import RaftElectableContext
 from node.messages.RequestVote import RequestVote
 from node.messages.VoteResponse import VoteResponse
-from node.state.StateManager import StateManager
-from state.RaftState import AbstractRaftState
-
-import json
+from node.state.RaftState import AbstractRaftState
 
 
 class FollowerState(AbstractRaftState):
-    def __init__(self, context: RaftElectableContext = None, state_manager: StateManager = None) -> None:
+    def __init__(self, context: RaftElectableContext = None, state_manager=None) -> None:
         super().__init__(context=context, state_manager=state_manager)
         self.__heartbeat_timeout = randint(150, 300) / 1000
         self._current_timeout = 0

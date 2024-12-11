@@ -1,13 +1,12 @@
 import json
 import time
-from electable.RaftElectableContext import RaftElectableContext
+from node.electable.RaftElectableContext import RaftElectableContext
 from node.messages.RaftHeartbeat import RaftHeartbeat
-from node.state.StateManager import StateManager
-from state.RaftState import AbstractRaftState
+from node.state.RaftState import AbstractRaftState
 
 
 class LeaderState(AbstractRaftState):
-    def __init__(self, context: RaftElectableContext = None, state_manager: StateManager = None) -> None:
+    def __init__(self, context: RaftElectableContext = None, state_manager=None) -> None:
         super().__init__(context=context, state_manager=state_manager)
         self._last_heartbeat = time.time()
 

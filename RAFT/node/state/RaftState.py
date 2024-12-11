@@ -1,11 +1,10 @@
 from abc import ABC, abstractmethod
 
 from node.electable.RaftElectableContext import RaftElectableContext
-from node.state.StateManager import StateManager
 
 
 class AbstractRaftState(ABC):
-    def __init__(self, context: RaftElectableContext = None, state_manager: StateManager = None) -> None:
+    def __init__(self, context: RaftElectableContext = None, state_manager=None) -> None:
         self._state_manager = state_manager
         self._context = context
 

@@ -1,12 +1,11 @@
-from electable.RaftElectableContext import RaftElectableContext
+from node.electable.RaftElectableContext import RaftElectableContext
 from node.messages.RequestVote import RequestVote
-from node.state.StateManager import StateManager
-from state.RaftState import AbstractRaftState
+from node.state.RaftState import AbstractRaftState
 import json
 
 
 class CandidateState(AbstractRaftState):
-    def __init__(self, context: RaftElectableContext = None, state_manager: StateManager = None) -> None:
+    def __init__(self, context: RaftElectableContext = None, state_manager=None) -> None:
         super().__init__(context=context, state_manager=state_manager)
         self.votes = 0
 
