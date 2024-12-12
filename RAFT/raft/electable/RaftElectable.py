@@ -1,9 +1,9 @@
-from node.electable.RaftElectablePeer import RaftElectablePeer
-from node.electable.RaftElectableSocket import RaftElectableUDPSocket
-from node.electable.RaftElectableState import RaftElectableState
-from node.electable.RaftElectableContext import RaftElectableContext
-from node.state.FollowerState import FollowerState
-from node.state.StateManager import StateManager
+from raft.electable.RaftElectablePeer import RaftElectablePeer
+from raft.electable.RaftElectableSocket import RaftElectableUDPSocket
+from raft.electable.RaftElectableState import RaftElectableState
+from raft.electable.RaftElectableContext import RaftElectableContext
+from raft.state.FollowerState import FollowerState
+from raft.state.StateManager import StateManager
 
 
 class RaftElectable:

@@ -1,8 +1,8 @@
 import json
 import time
-from node.electable.RaftElectableContext import RaftElectableContext
-from node.messages.RaftHeartbeat import RaftHeartbeat
-from node.state.RaftState import AbstractRaftState
+from raft.electable.RaftElectableContext import RaftElectableContext
+from raft.messages.RaftHeartbeat import RaftHeartbeat
+from raft.state.RaftState import AbstractRaftState
 
 
 class LeaderState(AbstractRaftState):
@@ -25,5 +25,5 @@ class LeaderState(AbstractRaftState):
         heartbeat = RaftHeartbeat(
             self._context.get_term(), self._context.get_id())
         for peer in self._context.get_peers():
-            self._context.get_socket().sendto(
+            self._context.get_socket().send(
                 heartbeat.to_json(), peer)

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from node.electable.RaftElectableContext import RaftElectableContext
+from raft.electable.RaftElectableContext import RaftElectableContext
 
 
 class AbstractRaftState(ABC):

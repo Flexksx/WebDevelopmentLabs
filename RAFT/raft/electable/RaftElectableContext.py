@@ -1,7 +1,7 @@
 import random
-from node.electable.RaftElectablePeer import RaftElectablePeer
-from node.electable.RaftElectableSocket import RaftElectableUDPSocket
-from node.electable.RaftElectableState import RaftElectableState
+from raft.electable.RaftElectablePeer import RaftElectablePeer
+from raft.electable.RaftElectableSocket import RaftElectableUDPSocket
+from raft.electable.RaftElectableState import RaftElectableState
 
 
 class RaftElectableContext:
@@ -35,6 +35,7 @@ class RaftElectableContext:
         self._state = RaftElectableState.FOLLOWER
         self._address = address
         self._port = port
+        self._socket = RaftElectableUDPSocket(address, port)
 
     def get_address(self) -> str:
         """Get the address of the node."""

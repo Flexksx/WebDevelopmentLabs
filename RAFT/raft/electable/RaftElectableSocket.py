@@ -1,5 +1,7 @@
 import socket
 
+from raft.electable.RaftElectablePeer import RaftElectablePeer
+
 
 class RaftElectableUDPSocket:
     def __init__(self, address: str = None, port: int = None, timeout: float = 0.5) -> None:
@@ -8,14 +10,18 @@ class RaftElectableUDPSocket:
         print(f"Binding to address {self._address}")
         self._port = port
         print(f"Binding to port {self._port}")
-        self._sock.bind((self._address, self._port))
+        self._sock.bind(("0.0.0.0", self._port))
         self._sock.settimeout(timeout)  # Set timeout to 0.5 seconds
 
     def recvfrom(self, size: int) -> tuple:
-        print(f"Receiving from {self._address}:{self._port}")
         return self._sock.recvfrom(size)
 
-    def sendto(self, message: bytes, addr: tuple) -> None:
+    def send(self, message: str, addr: tuple) -> None:
+        if isinstance(message, str):
+            message = message.encode('utf-8')
+        if isinstance(addr, RaftElectablePeer):
+            addr = (addr.get_address(), addr.get_port())
+            print(f"Sending to {addr} the message: {message}")
         self._sock.sendto(message, addr)
 
     def close(self) -> None:

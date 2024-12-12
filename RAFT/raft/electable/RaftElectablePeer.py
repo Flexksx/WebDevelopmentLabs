@@ -3,7 +3,7 @@ class RaftElectablePeer:
         self._id = id
         self._address = address
         self._port = port
-        print(f"Peer {self._id} at {self._address}:{self._port}")
+        print(f"Created peer {self._id} at {self._address}:{self._port}")
 
     def get_id(self) -> str:
         return self._id
